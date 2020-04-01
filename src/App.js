@@ -1,26 +1,59 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    Redirect
+} from "react-router-dom";
+import {connect} from 'react-redux'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import All from './pages/all/index'
+import Good from './pages/good/index'
+import Share from './pages/share/index'
+import Login from './components/login'
+
+ function App(props) {
+    return (
+        <div>
+            <div>
+                {props.token?"登录之后才能看见的列表：":null}
+            </div>
+            <div>
+                <Login/>
+            </div>
+            <Router>
+                <div>
+                    <nav>
+                        <ul>
+                            <li>
+                                <Link to="/">all</Link>
+                            </li>
+                            <li>
+                                <Link to="/good">Good</Link>
+                            </li>
+                            <li>
+                                <Link to="/share">share</Link>
+                            </li>
+                        </ul>
+                    </nav>
+
+                    <Switch>
+                        <Route path="/all" component={All} />
+                        <Route path="/good" component={Good} />
+                        <Route path="/share" component={Share} />
+                        <Redirect  from="/" to="/all" />
+                    </Switch>
+                </div>
+            </Router>
+        </div>
+    );
 }
 
-export default App;
+const mapStateToProps = (state)=>{
+    return {
+        token:state.Token
+    }
+}
+
+export default connect(mapStateToProps)(App);

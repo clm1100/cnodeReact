@@ -1,0 +1,2 @@
+export const GOOD_SET_LIST = "GOOD_SET_LIST";
+export const GOOD_DISPATCH_LIST = "GOOD_DISPATCH_LIST";
